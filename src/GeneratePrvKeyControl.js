@@ -100,17 +100,67 @@ class SecretForm extends React.Component {
     }
 }
 
+// {/*https://codesandbox.io/s/Rk360Yxz*/}
+// class Modal extends React.Component {
+//     render() {
+//         return (
+//             <div>
+//                 <p>{this.props.title}</p>
+//                 <button onClick={this.props.onPrev}>{'\u2190'} </button>
+//                 <button> Modal</button>
+//                 <button onClick={this.props.onNext}>{'\u2192'} </button>
+//             </div>
+//         );
+//     }
+// }
+
 class SecretList extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = { activeItem: 0}
+    }
+
+    handleNextProject = () => {
+        var arr = this.props.items.length;
+        var idx = this.state.activeItem + 1;
+        idx = idx % arr;
+
+        this.setState({ activeItem: idx});
+    }
+
+    handlePrevProject = () => {
+        var arr = this.props.items.length;
+        var idx = this.state.activeItem;
+
+        console.log('initial: ' + idx);
+
+        if (idx === 0) {
+            idx = arr - 1;
+        } else {
+            idx = idx -1;
+        }
+
+        console.log('updated: ' + idx);
+
+        this.setState({ activeItem: idx});
+    }
+
+
     render(){
+
         return (
-            <ol>
-                {this.props.items.map(item =>(
-                    <li key={item}>
-                        <p>{new Array(50 + 1).join('*')}</p>
-                        <QRCode value={item} />
-                    </li>
-                ))}
-            </ol>
+            <div>
+                <p></p>
+                <QRCode value={this.props.items[this.state.activeItem]}/>
+
+                <div>
+                    <p>{this.state.activeItem}</p>
+                    <button onClick={this.handlePrevProject}>{'\u2190'} </button>
+                    <button> Modal</button>
+                    <button onClick={this.handleNextProject}>{'\u2192'} </button>
+                </div>
+            </div>
         );
     }
 }
